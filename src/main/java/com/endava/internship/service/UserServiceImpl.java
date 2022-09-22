@@ -84,11 +84,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
-//        More compact solution but seems a bit unreadable to me.
+//        More stream oriented solution but seems a bit unreadable to me.
 //        All conditions and requirements are mashed into one big line of code
-//        return Optional.ofNullable(users
-//                .stream()
-//                .collect(Collectors.groupingBy(user -> user.getLastName(), Collectors.counting()))
+//        return Optional.ofNullable(
+//                getNumberOfLastNames(users)
 //                .entrySet()
 //                .stream()
 //                .collect(Collectors.groupingBy(Map.Entry::getValue))
@@ -96,9 +95,12 @@ public class UserServiceImpl implements UserService {
 //                .stream()
 //                .max(Map.Entry.comparingByKey())
 //                .map(Map.Entry::getValue)
-//                .filter(v -> v.size() == 1)
-//                .map(v -> v.get(0).getKey())
-//                .orElse(null));
+//                .filter(list -> list.size() == 1) // Only one frequent last name makes response valid
+//                .map(list -> list.get(0))
+//                .filter(entry -> entry.getValue() > 1) // Last Name should be present at least two times
+//                .map(entry -> entry.getKey())
+//                .orElse(null)
+//               );
 
         if (users.isEmpty()) return Optional.empty();
 

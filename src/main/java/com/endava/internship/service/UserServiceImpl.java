@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Comparator;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -57,12 +58,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<Integer, List<User>> groupByCountOfPrivileges(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        return users
+                .stream()
+                .collect(
+                        Collectors.groupingBy(user -> user.getPrivileges().size())
+                );
     }
 
+    // Incorrect method definition. Either return type should be optional
+    // or method should indicate that it can throw. Otherwise method description
+    // could cover behavior for empty users array case. Like returning -1.
     @Override
     public double getAverageAgeForUsers(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        return users
+                .stream()
+                .mapToDouble(User::getAge)
+                .average()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override

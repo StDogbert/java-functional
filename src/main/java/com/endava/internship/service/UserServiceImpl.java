@@ -65,21 +65,29 @@ public class UserServiceImpl implements UserService {
                 );
     }
 
-    // Incorrect method definition. Either return type should be optional
-    // or method should indicate that it can throw. Otherwise method description
-    // could cover behavior for empty users array case. Like returning -1.
     @Override
     public double getAverageAgeForUsers(final List<User> users) {
         return users
                 .stream()
                 .mapToDouble(User::getAge)
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+//                .orElseThrow(NoSuchElementException::new);
+                .orElse(-1);
     }
 
     @Override
     public Optional<String> getMostFrequentLastName(final List<User> users) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Optional.ofNullable(users
+                .stream()
+                .collect(Collectors.groupingBy(user -> user.getLastName(), Collectors.counting()))
+                .entrySet().stream()
+                .collect(Collectors.groupingBy(Map.Entry::getValue))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .filter(v -> v.size() == 1)
+                .map(v -> v.get(0).getKey())
+                .orElse(null));
     }
 
     @Override

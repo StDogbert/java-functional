@@ -48,7 +48,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUpdateUserWithAgeHigherThan(final List<User> users, final int age) {
-        throw new UnsupportedOperationException("Not implemented");
+        return users
+                .stream()
+                .filter(user -> user.getAge() > age)
+                .filter(user -> user.getPrivileges().stream().anyMatch(privilege -> privilege == Privilege.UPDATE))
+                .findFirst();
     }
 
     @Override

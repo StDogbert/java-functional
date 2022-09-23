@@ -66,20 +66,7 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .mapToDouble(User::getAge)
                 .average()
-//                .orElseThrow(NoSuchElementException::new);
-//                .orElse(null);
-                .orElse(-1); // TODO: Consider changing this
-//        Return of -1 for an undefined behaviour of empty array input variable seems to be described only in test.
-//        Even if that is desired behaviour there are still multiple questions. Is this method internal, or
-//        it provides data to some external API? If it is internal why do we need some magic return code
-//        when we can and should use language syntax sugar for that by returning optional or throwing exception.
-//        (and indicating that in method definition).
-//        Even optional as a response here is un-optimal IMHO as this should be a simple method and leaving
-//        responsibility of checking that input data is not empty to caller should lead to better readability.
-//        Unless we want to start naming Holly Wars.
-//        If this supposed to be a response to external API... Well, same arguments. Then lets increment API version
-//        and introduce breaking changes.
-//        Even if this was just a way to force tested person to inspect tests it is still very controversial.
+                .orElse(-1);
     }
 
     @Override

@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
                 user -> user
                     .getPrivileges()
                     .stream()
-                    .map(privilege -> new AbstractMap.SimpleEntry<>(privilege, user))
+                    .map(privilege -> Map.entry(privilege, user))
             )
             .collect(
                 Collectors
